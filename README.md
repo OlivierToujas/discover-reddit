@@ -2,7 +2,7 @@
 
 Discover Reddit is a basic web application that allows users to build Spotify playlists based on tracks shared on various Reddit forums. The user authenticates through Spotify and chooses various options to build the playlist with. Once the playlist is built, the user will be able to see which Reddit posts were gathered and the final Spotify playlist.
 
-## Website
+## Web App
 
 The web application is currently live and can be accessed at [discover-reddit.olivier-toujas.com](https://discover-reddit.olivier-toujas.com).
 
