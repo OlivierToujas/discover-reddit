@@ -1,9 +1,8 @@
 # Import the tools we need
-import praw
+import praw, praw_args
 import spotipy
 import requests
 import pymongo
-import praw_args
 
 def sp_search_for_submission(song, sp):
     result = None
