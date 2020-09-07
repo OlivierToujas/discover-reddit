@@ -19,7 +19,7 @@ def shutdown_server():
 
 @application.route('/', methods=['GET'])
 def index():
-    return 'Hello World!'
+    return 'Discover Reddit Server.'
 
 # @application.route('/shutdown', methods=['GET'])
 # def shutdown():
