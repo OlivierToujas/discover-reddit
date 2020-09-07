@@ -2,13 +2,14 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import spotipy
 import discover_reddit 
-import pymongo
+import pymongo, pymongo_args
+
 
 application = Flask(__name__)
 CORS(application)
 
 # Connect to mongodb database
-client = pymongo.MongoClient("mongodb+srv://user1:discoverreddit@discover-reddit.jhhnt.mongodb.net/Discover-Reddit?retryWrites=true&w=majority")
+client = pymongo.MongoClient(pymongo_args.MONGODB_SERVER_STRING)
 db = client['discover_reddit']
 
 def shutdown_server():
