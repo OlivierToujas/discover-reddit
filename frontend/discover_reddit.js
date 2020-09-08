@@ -14,7 +14,7 @@ function hideMenu() {
   $("#menu-container").css("visibility", "hidden");
   $("#menu-container").css("height", "0");
 
-  $("#show-menu").css("height", "fit-content");
+  $("#show-menu").css("height", "min-content");
   $("#show-menu").css("transition-duration", "1s");
   $("#show-menu").css("visibility", "visible");
 }
@@ -24,7 +24,7 @@ function showMenu() {
   $("#show-menu").css("transition-duration", "0s");
   $("#show-menu").css("height", "0");
 
-  $("#menu-container").css("height", "fit-content");
+  $("#menu-container").css("height", "min-content");
   $("#menu-container").css("visibility", "visible");
 }
 
@@ -360,7 +360,7 @@ class DiscoverReddit extends React.Component {
     } else {
       return (
         <div id='sign-in-container'>
-          <a id='sign-in-spotify' href={"https://accounts.spotify.com/authorize?client_id=0807e31abd604475b652272b3521e4a4&response_type=token&redirect_uri=https://discover-reddit.olivier-toujas.com/&scope=playlist-modify-public&state=" + randomString}>Sign In to Spotify</a>
+          <a id='sign-in-spotify' href={"https://accounts.spotify.com/authorize?client_id=0807e31abd604475b652272b3521e4a4&response_type=token&redirect_uri=http://localhost/discover-reddit/frontend/&scope=playlist-modify-public&state=" + randomString}>Sign In to Spotify</a>
         </div>
       );
     }

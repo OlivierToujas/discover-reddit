@@ -82,7 +82,7 @@
 #show-menu {
     font-family: spotify-circular, sans-serif;
     width: 330px;
-    height: fit-content;
+    height: min-content;
     justify-content: center;
     display: flex;
     align-items: center;
@@ -103,7 +103,7 @@
 }
 
 #menu-container {
-    width: fit-content;
+    width: min-content;
     height: 0;
     visibility: hidden;
     justify-content: center;
@@ -117,8 +117,8 @@
 
 #loading-container {
     font-family: spotify-circular, sans-serif;
-    width: fit-content;
-    height: fit-content;
+    width: max-content;
+    height: max-content;
     display: grid;
     align-items: center;
     background-color: rgba(36, 36, 36, 0.411);
@@ -175,7 +175,7 @@
 }
 
 .form-control.sub-count {
-    width: fit-content;
+    width: 40px;
     height: 25px;
     padding:  0px 2px;
     display: inline-flex;
@@ -266,7 +266,7 @@
 }
 
 #time-span-options h4 {
-    width: fit-content;
+    width: max-content;
     margin: auto;
     padding: 8px;
 }
@@ -289,7 +289,7 @@
     color: black;
     border-radius: 8px;
     justify-content: left;
-    min-width: fit-content;
+    width: max-content;
     margin-right: 15px;
     margin-top: 10px;
     margin-bottom: 10px;
@@ -297,20 +297,20 @@
 }
 
 #subreddit-options h4 {
-    width: fit-content;
+    width: max-content;
     margin: auto;
     padding: 8px;
 }
 
 #subreddit-options label {
-    display: block;
-    padding: 3px;
-    width: fit-content;
+    display: flex;
+    padding: 2px;
+    width: min-content;
     margin: auto 5px;
 }
 
 #subreddit-options label span{
-    padding: 5px;
+    padding: 2px 5px;
 }
 
 #spotify-playlist {
