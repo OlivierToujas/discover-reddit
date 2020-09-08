@@ -44,16 +44,17 @@ class PlaylistComp extends React.Component {
     } else if (this.props.loadData){
       return (
         <div id="playlists-container">
-          <div id="playlists-labels">
+          <div id="reddit-container">
             <div id="reddit-label">
               <h2>Reddit Posts</h2>
             </div>
+            {this.props.redditHtml}
+          </div>
+          <div id="spotify-container">
             <div id="spotify-label">
               <h2>Spotify Playlist</h2>
             </div>
-          </div>
-          <div id="data-container">
-            {this.props.redditHtml}
+            <span style={{display: 'flex', justifyContent: 'center', margin: '4px auto', color: 'white'}}>(If the playlist doesn't update properly, please refresh the page.)</span>
             <iframe id="spotify-playlist" src={this.props.playlistURL} frameBorder="0" allowtransparency="true" allow="encrypted-media" importance="high"></iframe>
           </div>
         </div>
@@ -94,8 +95,6 @@ class PlaylistMenu extends React.Component {
     let tempHtmlList = [];
     let tempPlaylistURL = "";
     let self = this;
-
-    this.setState({showMenu: false});
     
     var postData = {
       "token": this.props.token
@@ -144,28 +143,57 @@ class PlaylistMenu extends React.Component {
     }
   }
 
+  deletePlaylist() {
+    let self = this;
+    
+    var postData = {
+      "token": this.props.token
+    };
+
+    var req = new XMLHttpRequest();
+    req.onreadystatechange = function () {
+      if (req.readyState === 4) {
+        try {
+          var result = JSON.parse(req.responseText);
+          if (result['error'] == "token-expired"){
+            window.location.replace("https://discover-reddit.olivier-toujas.com/");
+          }
+        } catch (err) {
+          console.log(err);
+        }
+        self.setState({redditHtml: ""});
+        self.setState({playlistURL: ""});
+      }
+    }
+
+    req.open("POST", "https://discover-reddit-api.olivier-toujas.com/delete-playlist", true);
+    req.setRequestHeader("Content-Type", "application/json");
+    try{
+      req.send(JSON.stringify(postData));
+    } catch(err) {
+      console.log(err);
+    }
+  }
+  
   triggerNewPlaylist(){
     let tempHtmlList = [];
     let tempPlaylistURL = "";
     let self = this;
 
+    hideMenu()
     this.setState({awaitingResponse: true});
 
-    if (this.currentTotalCount() <= 4) {
-      alert("Please select at least 5 total submissions.");
+    if (this.currentTotalCount() <= 0) {
+      alert("Please select at least 1 submission.");
       this.setState({awaitingResponse: false});
-      return;
-    }
-
-    if (this.currentTotalCount() >= 101) {
-      alert("Please select no more than 100 total submissions.");
-      this.setState({awaitingResponse: false});
+      showMenu()
       return;
     }
 
     if (this.state.timeSpan == "") {
       alert("Please select a time frame.");
       this.setState({awaitingResponse: false});
+      showMenu();
       return;
     }
 
@@ -215,7 +243,6 @@ class PlaylistMenu extends React.Component {
         self.setState({redditHtml: redditDiv});
         self.setState({playlistURL: tempPlaylistURL});
         self.setState({awaitingResponse: false});
-        hideMenu();
       }
     }
 
@@ -267,6 +294,14 @@ class PlaylistMenu extends React.Component {
   }
 
   render () {
+    let deleteButton = <span></span>
+    if (this.hasData()) {
+      deleteButton = (
+        <button id="delete-button" onClick={this.deletePlaylist.bind(this)}>
+          Delete Current Playlist
+        </button>
+      );
+    }
     var ele = (
       <div id='top-div'>
         <button id="show-menu" onClick={showMenu}>
@@ -275,6 +310,7 @@ class PlaylistMenu extends React.Component {
         <div id="menu-container">
           <div id="subreddit-options">
             <h4>Get {this.currentTotalCount()} Posts From...</h4>
+            <span style={{display: 'flex', justifyContent: 'center',margin: '1px auto', color: 'rgb(0, 0, 0, .5'}}>(max 50 per subreddit)</span>
             <label>
               <input type="number" id="edm-count" className="form-control sub-count " min="0" max="60" value={this.state.edmCount} onChange={this.handleSubmissionCount}/>
               <span>r/EDM</span>
@@ -323,7 +359,9 @@ class PlaylistMenu extends React.Component {
             <button onClick={this.triggerNewPlaylist.bind(this)} id='trigger-new-playlist'>Create New Playlist</button>
             <button onClick={hideMenu} id='hide-playlist-menu'>Hide Options</button>
           </div>
+          
         </div>
+        {deleteButton}
         <PlaylistComp loadData={this.hasData()} awaitingResponse={this.state.awaitingResponse} playlistURL={this.state.playlistURL} redditHtml={this.state.redditHtml}/>
       </div>
     );

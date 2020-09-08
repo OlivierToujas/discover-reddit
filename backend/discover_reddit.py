@@ -48,7 +48,7 @@ def get_songs_from_sub(song_count, time_span, sub, reddit, sp):
             if flair == 'New' or flair == 'Throwback':
                 # Check if submission was found by Spotify search
                 search_result = sp_search_for_submission(submission, sp)
-                if (search_result != None):
+                if ((search_result != None) and (search_result not in song_list)):
                     reddit_list.append(submission)
                     song_list.append(search_result)
                 
@@ -67,7 +67,7 @@ def get_songs_from_sub(song_count, time_span, sub, reddit, sp):
                 
                 # Check if submission was found by Spotify search
                 search_result = sp_search_for_submission(submission, sp)
-                if (search_result != None):
+                if ((search_result != None) and (search_result not in song_list)):
                     reddit_list.append(submission)
                     song_list.append(search_result)
                 if (len(reddit_list) >= song_count):
@@ -85,7 +85,7 @@ def get_songs_from_sub(song_count, time_span, sub, reddit, sp):
 
                 # Check if submission was found by Spotify search
                 search_result = sp_search_for_submission(submission, sp)
-                if (search_result != None):
+                if ((search_result != None) and (search_result not in song_list)):
                     reddit_list.append(submission)
                     song_list.append(search_result)
                 if (len(reddit_list) >= song_count):
@@ -102,7 +102,7 @@ def get_songs_from_sub(song_count, time_span, sub, reddit, sp):
 
                 # Check if submission was found by Spotify search
                 search_result = sp_search_for_submission(submission, sp)
-                if (search_result != None):
+                if ((search_result != None) and (search_result not in song_list)):
                     reddit_list.append(submission)
                     song_list.append(search_result)
                 if (len(reddit_list) >= song_count):
@@ -110,7 +110,7 @@ def get_songs_from_sub(song_count, time_span, sub, reddit, sp):
     
     return reddit_list, song_list
 
-def discover_reddit(edm_count, hhh_count, music_count, ltt_count, time_span, sub_list, sp):
+def trigger_playlist(edm_count, hhh_count, music_count, ltt_count, time_span, sub_list, sp):
     # Create a Reddit instance using praw and my Reddit account info.
     # Details on how to do this can be found at the beginning of this article:
     # https://www.storybench.org/how-to-scrape-reddit-with-python/
@@ -191,6 +191,17 @@ def discover_reddit(edm_count, hhh_count, music_count, ltt_count, time_span, sub
 
     # Return dict of data gathered by dsicover_reddit.py
     return returned_dict
+
+def delete_playlist(sp):
+    # Search through user's playlists to see if Discover Reddit exists
+    for playlist in sp.current_user_playlists()['items']:
+        # If Discover Reddit does exist, get the playlist ID
+        if playlist['name'] == 'Discover Reddit':
+            sp_playlist_id = playlist['id']
+            # Delete playlist with ID
+            sp.user_playlist_unfollow(sp.current_user()['id'], sp_playlist_id)
+
+
 
 if __name__ == '__main__':
     print("Called from main")

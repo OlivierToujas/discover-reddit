@@ -73,7 +73,7 @@ def trigger_playlist():
     
     
     try:
-        result = discover_reddit.discover_reddit(edm_count=edm_count, hhh_count=hhh_count, music_count=music_count, ltt_count=ltt_count, time_span=time, sub_list=subreddits, sp=sp)
+        result = discover_reddit.trigger_playlist(edm_count=edm_count, hhh_count=hhh_count, music_count=music_count, ltt_count=ltt_count, time_span=time, sub_list=subreddits, sp=sp)
         ret_val = jsonify(result)
         db_col = db.users
         find_entry = db_col.find_one(update_query)
@@ -90,7 +90,29 @@ def trigger_playlist():
         result = {'message': "trigger-playlist-failure", 'error': str(e)}
         return jsonify(result)
 
-    
+@application.route('/delete-playlist', methods=['POST'])
+def delete_playlist():
+    data = request.json
+    token = data['token']
+    sp = spotipy.Spotify(token)
+    try:
+        delete_query = {"user_id": sp.current_user()["id"]}
+    except Exception as e:
+        print(str(e))
+        return jsonify({'error': 'token-expired'})
+
+    # Check for user entry in database
+    db_col = db.users
+    result = db_col.find_one(delete_query)
+    if result is None:
+        return jsonify({'in_db': False})
+    else:
+        discover_reddit.delete_playlist(sp)
+        db_col.delete_one(delete_query)
+        return jsonify({
+            'playlist_url': "",
+            'submissions': ""
+        })    
 
 def start_server():
     application.run()
