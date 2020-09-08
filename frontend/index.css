@@ -226,8 +226,8 @@
     font-family: spotify-circular, sans-serif;
     font-weight: 200;
     font-size: xx-large;
-    width: fit-content;
-    height: fit-content;
+    width: max-content;
+    height: max-content;
     background-color: black;
     border-radius: 40px;
     border: black;
