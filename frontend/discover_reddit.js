@@ -143,6 +143,15 @@ class PlaylistMenu extends React.Component {
     }
   }
 
+  confirmDelete() {
+    let retval = confirm("This will permanently remove all your data from Discover Reddit.");
+
+    if (retval) {
+      this.deletePlaylist().bind(this);
+      showMenu();
+    }
+  }
+
   deletePlaylist() {
     let self = this;
     
@@ -297,7 +306,7 @@ class PlaylistMenu extends React.Component {
     let deleteButton = <span></span>
     if (this.hasData()) {
       deleteButton = (
-        <button id="delete-button" onClick={this.deletePlaylist.bind(this)}>
+        <button id="delete-button" onClick={this.confirmDelete.bind(this)}>
           Delete Current Playlist
         </button>
       );
@@ -398,7 +407,7 @@ class DiscoverReddit extends React.Component {
     } else {
       return (
         <div id='sign-in-container'>
-          <a id='sign-in-spotify' href={"https://accounts.spotify.com/authorize?client_id=0807e31abd604475b652272b3521e4a4&response_type=token&redirect_uri=https://discover-reddit.olivier-toujas.com/&scope=playlist-modify-public&state=" + randomString}>Sign In to Spotify</a>
+          <a id='sign-in-spotify' href={"https://accounts.spotify.com/authorize?client_id=0807e31abd604475b652272b3521e4a4&response_type=token&redirect_uri=https://discover-reddit.olivier-toujas.com&scope=playlist-modify-public&state=" + randomString}>Sign In to Spotify</a>
         </div>
       );
     }
