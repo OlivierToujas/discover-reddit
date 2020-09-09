@@ -368,7 +368,6 @@ class PlaylistMenu extends React.Component {
             <button onClick={this.triggerNewPlaylist.bind(this)} id='trigger-new-playlist'>Create New Playlist</button>
             <button onClick={hideMenu} id='hide-playlist-menu'>Hide Options</button>
           </div>
-          
         </div>
         {deleteButton}
         <PlaylistComp loadData={this.hasData()} awaitingResponse={this.state.awaitingResponse} playlistURL={this.state.playlistURL} redditHtml={this.state.redditHtml}/>
